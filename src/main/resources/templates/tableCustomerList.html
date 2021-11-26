@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Soraqçalar</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../awesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="headLine"></div>
+
+<div id="headBody">
+    <a href="/index"><img id="LogoImage" src="../image/Logo.png"></a>
+    <div id="searchDiv">
+        <input id="search" type="text" placeholder="Axtarış...">
+        <a href="/index"><i class="fas fa-search"></i></a>
+    </div>
+</div>
+
+<div id="headNavbar">
+    <div id="headNavbarList">
+        <a href="/index"><label class="headButton"><i class="fas fa-home"></i>Ana Səyfə</label></a>
+        <label class="dropdown">
+            <label class="headButton dropbtn active">Soraqçalar<i class="fas fa-caret-down"></i></label>
+            <div class="dropdown-content">
+                <a href="/list">Mallarin Siyahisi</a>
+                <a href="/customers">Müştərilərin siyahısı</a>
+                <a href="#">Link 3</a>
+            </div>
+        </label>
+        <a href="/accounts"><label class="headButton">Hesabatlar</label></a>
+        <label class="headButton">Xidmətlər</label>
+        <label class="headButton">Əsas Jurnallar</label>
+        <a href="/documents"><label class="headButton">Sənədlər</label></a>
+        <label class="headButton">Ümumi Jurnallar</label>
+        <label class="headButton">Kassa</label>
+    </div>
+</div>
+
+<div id="bodyQuestionnaire">
+    <div class="actionButtons">
+        <i class="fas fa-plus-circle addTools" data-bs-toggle="modal" data-bs-target="#addCustomerPanel"></i>
+        <i class="fas fa-edit updateTools" data-bs-toggle="modal" data-bs-target="#updateCustomerPanel"></i>
+        <i class="fas fa-trash-alt deleteTools" data-bs-toggle="modal" data-bs-target="#deleteCustomerPanel" ></i>
+        <i class="fas fa-print printTools"></i>
+    </div>
+
+    <table class="example-table" id="tableList">
+        <thead>
+        <tr class="tableHead">
+            <th class="customerNO"> №</th>
+            <th class="customerName">Müştərinin adı və soyadı</th>
+            <th class="customerMobil"> Telefon/nöm</th>
+            <th class="customerAddress"> Ünvanı</th>
+            <th class="customerOther"> Qeyd</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+
+    <script>
+        function showAllCustomers() {
+            document.getElementById("tableBody").innerHTML = "";
+
+            var xmlHttp = new XMLHttpRequest();
+            var url = "http://localhost:8080/Rest/Customers";
+
+            xmlHttp.open("GET", url, false);
+            xmlHttp.setRequestHeader('Content-type', 'application/json');
+            xmlHttp.send(null);
+
+            var list = JSON.parse(xmlHttp.responseText);
+
+            var tableList = document.getElementById("tableBody");
+
+            var tableBody =
+                "<tr class=\"tableRow\">\n" +
+                "     <td class=\"customerNO\" id=\"customerID\">:id</td>\n" +
+                "     <td class=\"customerName\" id=\"customerName\">:name</td>\n" +
+                "     <td class=\"customerMobil\" id=\"customerPhone\">:phone</td>\n" +
+                "     <td class=\"customerAddress Address\" id=\"customerAddress\">:address</td>\n" +
+                "     <td class=\"customerOtherBody Other\" id=\"customerOther\">:other</td>\n" +
+                "</tr>"
+
+            for (var i = 0; i < list.length; i++) {
+                tableList.innerHTML = tableList.innerHTML + tableBody.replaceAll(":id", list[i].id)
+                    .replaceAll(":name", list[i].name).replaceAll(":phone", list[i].phone)
+                    .replaceAll(":address", list[i].address).replaceAll(":other", list[i].other);
+            }
+
+            selectedCustomersRow();
+        }
+
+        // This line is selected row start;
+        function selectedCustomersRow() {
+            var index,
+                table = document.getElementById("tableList");
+
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].onclick = function () {
+
+                    if (typeof index !== "undefined") {
+                        table.rows[index].classList.toggle("selected");
+                    }
+                    console.log(typeof index);
+                    index = this.rowIndex;
+                    this.classList.toggle("selected");
+                    console.log(typeof index);
+                    document.getElementById("idUpdate").value = this.cells[0].innerHTML;
+                    document.getElementById("nameUpdate").value = this.cells[1].innerHTML;
+                    document.getElementById("phoneUpdate").value = this.cells[2].innerHTML;
+                    document.getElementById("addressUpdate").value = this.cells[3].innerHTML;
+                    document.getElementById("otherUpdate").value = this.cells[4].innerHTML;
+                    document.getElementById("idDelete").value=this.cells[0].innerHTML;
+                    document.getElementById("customerDeleteName").innerHTML=this.cells[1].innerHTML;
+                }
+            }
+        }
+
+        //     This line is selected row end
+
+    </script>
+
+    <div>
+        <div class="modal" tabindex="-1" id="addCustomerPanel">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="addModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mushteri elave edin</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <label>Ad Soyad:</label>
+                            <label for="nameAdd"></label><input type="text" name="nameAdd" id="nameAdd"
+                                                                class="addAndUpdate"
+                                                                placeholder="Ad Soyad" required>
+                            <br><br>
+
+                            <label>Telefon:</label>
+                            <label for="phoneAdd"></label><input type="text" name="phoneAdd" id="phoneAdd"
+                                                                 class="addAndUpdate"
+                                                                 placeholder="Telefon" required>
+                            <br><br>
+
+                            <label>Unvan:</label>
+                            <label for="addressAdd"></label><textarea name="addressAdd" id="addressAdd"
+                                                                      class="addressAndOther"
+                                                                      placeholder="Unvan" required></textarea>
+                            <br><br>
+                            <br><br>
+
+                            <label>Diger:</label>
+                            <label for="otherAdd"></label><textarea name="otherAdd" id="otherAdd"
+                                                                    class="addressAndOther"
+                                                                    placeholder="Diger" required></textarea>
+                            <br><br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="Add" class="btn btn-success addButton" onclick="addCustomer()" id="buttonAd"
+                                    data-bs-dismiss="modal">Add
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn addButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="modal" tabindex="-1" id="updateCustomerPanel">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="updateModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title-update">Mushterini update edin.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <input type="hidden" name="idUpdate" id="idUpdate">
+
+                            <label>Ad Soyad:</label>
+                            <label for="nameUpdate"></label><input type="text" name="nameUpdate" id="nameUpdate"
+                                                                   class="addAndUpdate">
+                            <br><br>
+
+                            <label>Telefon:</label>
+                            <label for="phoneUpdate"></label><input type="text" name="phoneUpdate" id="phoneUpdate"
+                                                                    class="addAndUpdate">
+                            <br><br>
+
+                            <label>Unvan:</label>
+                            <label for="addressUpdate"></label><textarea name="addressUpdate" id="addressUpdate"
+                                                                         class="addressAndOther"></textarea>
+                            <br><br>
+                            <br><br>
+
+                            <label>Diger:</label>
+                            <label for="otherUpdate"></label><textarea name="otherUpdate" id="otherUpdate"
+                                                                       class="addressAndOther"></textarea>
+                            <br><br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="Update" class="btn btn-success addButton" onclick="updateCustomer()"
+                                    data-bs-dismiss="modal" id="buttonUpdate">Update
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn addButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="modal" tabindex="-1" id="deleteCustomerPanel">
+            <div class="modal-dialog ">
+                <div class="modal-content" id="deleteModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title-delete">Müştərini silin.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body-delete">
+                        <div>
+                            <input type="hidden" name="idDelete" id="idDelete">
+                            <span id="deleteAbout">
+                                <label id="delete" class="delete"><label id="customerDeleteName"></label>   müştərisini silmək istədiyinizə əminmisiniz? </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="delete" class="btn btn-success deleteButton" onclick="deleteCustomer()"
+                                    data-bs-dismiss="modal" id="buttonDelete">Delete
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn deleteButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addCustomer() {
+            var customer = {
+                name: document.getElementById("nameAdd").value,
+                phone: document.getElementById("phoneAdd").value,
+                address: document.getElementById("addressAdd").value,
+                other: document.getElementById("otherAdd").value,
+            }
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllCustomers();
+            }
+            xmlHttp.open("POST", "http://localhost:8080/Rest/Customers/", false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(customer));
+            clearAdd();
+
+        }
+
+        function clearAdd() {
+            document.getElementById("nameAdd").value = "";
+            document.getElementById("phoneAdd").value = "";
+            document.getElementById("addressAdd").value = "";
+            document.getElementById("otherAdd").value = "";
+        }
+
+        function updateCustomer() {
+            var customer = {
+                id: document.getElementById("idUpdate").value,
+                name: document.getElementById("nameUpdate").value,
+                phone: document.getElementById("phoneUpdate").value,
+                address: document.getElementById("addressUpdate").value,
+                other: document.getElementById("otherUpdate").value,
+            }
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllCustomers();
+            }
+            xmlHttp.open("PUT", "http://localhost:8080/Rest/Customers/", false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(customer));
+
+        }
+
+        function deleteCustomer(){
+            var id= document.getElementById("idDelete").value;
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllCustomers();
+            }
+            xmlHttp.open("DELETE", "http://localhost:8080/Rest/Customers/"+id, false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(id));
+
+        }
+
+    </script>
+
+</div>
+
+<script>
+    showAllCustomers();
+</script>
+</body>
+</html>

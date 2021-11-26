@@ -1,0 +1,553 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#headLine {
+    margin-top: 40px;
+    border-bottom: #dedede 1px solid;
+}
+
+#headBody {
+    height: 100px;
+    width: 100%;
+}
+
+#LogoImage {
+    margin-left: 100px;
+    width: 200px;
+    height: 100px;
+}
+
+#search {
+    width: 400px;
+    height: 35px;
+    border-radius: 10px;
+    border: #ff8b8b 2px solid;
+    padding-left: 5px;
+}
+
+#searchDiv {
+    margin-top: -67px;
+    margin-left: 400px;
+}
+
+#headNavbar {
+    width: 100%;
+    height: 56px;
+    background: red;
+}
+
+#headNavbarList {
+    margin-left: 80px;
+    padding-top: 3px;
+}
+
+.headButton {
+    width: auto;
+    height: 50px;
+    padding-top: 12.5px;
+    font: 20px "Times New Roman";
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+.headButton:hover {
+    background: #ededed;
+    color: saddlebrown;
+}
+
+.active {
+    background: #ededed;
+    border-radius: 5px 5px 0 0;
+    color: saddlebrown;
+    height: 53px;
+}
+
+.fa-search {
+    margin-left: -35px;
+    color: red;
+    cursor: pointer;
+}
+
+.fa-home {
+    color: darkred;
+    margin-right: 7px;
+}
+
+#bodyHomePage {
+    width: 100%;
+    height: 2000px;
+    padding-top: 30px;
+    background: #ededed;
+    padding-left: 30px;
+}
+
+#bodyDocuments {
+    width: 100%;
+    height: 575px;
+    padding-top: 30px;
+    background: #ededed;
+    padding-left: 30px;
+}
+
+#bodyQuestionnaire {
+    width: 100%;
+    height: 420px;
+    padding-top: 20px;
+    background: #ededed;
+    padding-left: 15px;
+}
+
+.nameDiv {
+    height: 53px;
+}
+
+.Tools {
+    width: 250px;
+    height: 380px;
+    background: white;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.Tools:hover {
+    box-shadow: 0 0 20px 0 grey, 0 0 20px 0 grey;
+    border: darkgrey 1px solid;
+    border-radius: 5px;
+    z-index: -1;
+    cursor: pointer;
+}
+
+.Tools img {
+    width: 248px;
+    height: 195px;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+
+.ToolName {
+    font-size: 20px;
+    display: inline-block;
+    margin-left: 30px;
+    margin-right: 20px;
+    margin-top: 10px;
+    color: black !important;
+    font-family: "Times New Roman";
+}
+
+.ToolWareHouse {
+    color: dimgray;
+    font: 20px "Times New Roman";
+    display: inline-block;
+    margin-left: 60px;
+    margin-top: 17px;
+}
+
+.ToolMoney {
+    font-size: 30px;
+    margin-left: 75px;
+    color: black;
+    display: inline-block;
+    font-family: "Times New Roman";
+    margin-top: -5px;
+}
+
+.ToolMoney img {
+    width: 40px;
+    height: 28px;
+    margin-top: -6px;
+}
+
+.allDocumentsListLeft {
+    /*border: 5px double #ac5353;*/
+    border: 5px double #C0C0C0;
+    width: 450px;
+    height: 532px;
+    padding-left: 30px;
+    float: left;
+    margin-right: 30px;
+}
+
+.allDocumentsListCenter {
+    width: 420px;
+    float: left;
+    height: 530px;
+    margin-right: 30px;
+}
+
+.allDocumentsListRight {
+    border: 5px double #C0C0C0;
+    width: 370px;
+    height: 532px;
+    padding-left: 30px;
+    float: left;
+}
+
+.allDocuments {
+    color: darkblue;
+    font-family: "Times New Roman";
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+.allDocumentsHeadLeft {
+    margin-top: -7px;
+    width: 430px;
+    height: 40px;
+    color: darkslategray;
+    font-family: "Times New Roman";
+    font-size: 30px;
+    margin-left: -25px !important;
+    border-bottom: 5px double #C0C0C0;
+}
+
+.allDocumentsCenter-Top {
+    border: 5px double #C0C0C0;
+    width: 420px;
+    height: auto;
+    padding-left: 30px;
+    margin-bottom: 22px;
+}
+
+.allDocumentsCenter-Center {
+    border: 5px double #C0C0C0;
+    width: 420px;
+    height: auto;
+    padding-left: 30px;
+    margin-bottom: 22px;
+}
+
+.allDocumentsCenter-Bottom {
+    border: 5px double #C0C0C0;
+    width: 420px;
+    height: auto;
+    padding-left: 30px;
+}
+
+.allDocumentsHeadRight {
+    margin-top: -7px;
+    width: 350px;
+    height: 40px;
+    color: darkslategray;
+    font-family: "Times New Roman";
+    font-size: 30px;
+    margin-left: -25px !important;
+    border-bottom: 5px double #C0C0C0;
+}
+
+.center {
+    text-align: center;
+}
+
+.allDocumentsHeadCenterTop {
+    margin-top: -7px;
+    width: 400px;
+    height: 40px;
+    color: darkslategray;
+    font-family: "Times New Roman";
+    font-size: 30px;
+    margin-left: -25px !important;
+    border-bottom: 5px double #C0C0C0;
+}
+
+table {
+    border-collapse: collapse;
+    border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
+
+}
+
+thead,tbody {
+    display: block;
+}
+th,td {
+    padding: 8px 10px;
+    width: 325px;
+    box-sizing: border-box;
+}
+tbody {
+    height: 343px;
+    overflow-y: scroll;
+}
+
+.tableHead th {
+    border: 1px solid white;
+    font-family: "Times New Roman";
+    font-size: 15px;
+}
+
+.tableHead .tableName, .tableHead .customerName {
+    text-align: center;
+}
+
+.tableRow td {
+    border: 1px solid grey;
+    font-family: "Times New Roman";
+    font-size: 20px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+tr:nth-child(even) {
+    background-color: silver;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+.tableHead {
+    background-color: black !important;
+    color: #fff;
+}
+
+.tableRow:hover {
+    cursor: pointer;
+    background-color: blue;
+    color: white;
+}
+
+.selected {
+    cursor: pointer;
+    background-color: blue !important;
+    color: white;
+}
+
+tr {
+    text-align: center;
+}
+
+.tableNO, .customerNO {
+    width: 100px;
+    font-weight: bold;
+}
+
+.tableName, .customerName {
+    width: 440px;
+    text-align: left;
+}
+
+.tableBarcode, .customerMobil {
+    width: 220px;
+}
+
+.tableNumber {
+    width: 120px;
+}
+
+.tableSize{
+    width: 100px;
+}
+
+.tableBuy, .tableSale {
+    width: 170px;
+}
+
+.customerName {
+    width: 430px;
+    text-align: left;
+}
+
+.customerMobil {
+    width: 150px;
+    color: red;
+    font-weight: bold;
+}
+
+.tableHead .customerMobil {
+    color: white;
+}
+
+.Address, .Other {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.customerAddress, .customerOther {
+    width: 326px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customerOtherBody {
+    width: 310px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background: #ededed;
+    border-radius: 5px 5px 0 0;
+    color: saddlebrown;
+    height: 53px;
+}
+
+.fa-caret-down {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.actionButtons {
+    width: 1340px;
+    height: 30px;
+    margin-top: -17px;
+}
+
+.addTools, .updateTools {
+    font-size: 25px;
+    color: olivedrab;
+    margin-left: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.deleteTools {
+    font-size: 25px;
+    color: red;
+    margin-left: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.printTools {
+    font-size: 25px;
+    color: navy ;
+    margin-left: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+#addModal, #updateModal{
+    background: #d8d8d8 !important;
+    border-radius: 20px !important;
+    width: 600px !important;
+    margin-left: -100px !important;
+    font-family: "Times New Roman";
+}
+
+.modal-title {
+    text-align: center !important;
+    margin-left: 160px;
+    font-size: 30px !important;
+    font-family: "Times New Roman";
+}
+
+.modal-title-update {
+    text-align: center !important;
+    margin-left: 140px;
+    font-size: 30px !important;
+    font-family: "Times New Roman";
+}
+
+.addAndUpdate {
+    color: red;
+    border-radius: 30px;
+    font: 20px "Times New Roman";
+    outline: none;
+    padding: 0 10px;
+    margin: 0 0 0 14px;
+    height: 30px;
+    float: right;
+    border: 2px black solid;
+}
+
+.addressAndOther {
+    color: red;
+    border-radius: 10px;
+    font: 20px "Times New Roman";
+    outline: none;
+    padding: 0 10px;
+    margin: 0 0 0 14px;
+    height: 70px;
+    width: 267px;
+    float: right;
+    overflow-y: hidden;
+    resize: none;
+    border: 2px black solid;
+}
+
+.addBtn {
+    width: 100%;
+    text-align: right !important;
+}
+
+.addButton, .deleteButton {
+    width: 150px;
+    border-radius: 15px !important;
+    margin-left: 20px !important;
+}
+
+#buttonAd {
+    background: darkslategray !important;
+}
+
+#deleteModal {
+    background: #d8d8d8 !important;
+    border-radius: 20px !important;
+    width: 700px !important;
+    margin-left: -100px !important;
+    margin-top: 150px !important;
+}
+
+.modal-title-delete {
+    text-align: center !important;
+    margin-left: 250px;
+    font-size: 30px !important;
+}
+
+#buttonDelete {
+    background: #ca1016 !important;
+}
+
+.modal-body-delete {
+    font: 20px "Times New Roman";
+    color: black;
+    padding-left: 50px;
+}
+
+#customerDeleteName, #toolDeleteName {
+    font-size: 30px;
+    color: #ca1016;
+}

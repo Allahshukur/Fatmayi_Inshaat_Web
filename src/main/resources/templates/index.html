@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fatmayı İnşaat</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../awesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+</head>
+
+<script>
+
+</script>
+
+<body>
+
+<div id="headLine"></div>
+
+<div id="headBody">
+    <a href="/index"><img id="LogoImage" src="../image/Logo.png"></a>
+    <div id="searchDiv">
+        <input id="search" class="search" type="text" placeholder="Axtarış...">
+        <a href="/index"><i class="fas fa-search"></i></a>
+    </div>
+</div>
+
+<div id="headNavbar">
+    <div id="headNavbarList">
+        <a href="/index"><label class="headButton active"><i class="fas fa-home"></i>Ana Səyfə</label></a>
+        <label class="dropdown">
+            <label class="headButton dropbtn">Soraqçalar<i class="fas fa-caret-down"></i></label>
+            <div class="dropdown-content">
+                <a href="/list">Mallarin Siyahisi</a>
+                <a href="/customers">Müştərilərin siyahısı</a>
+                <a href="#">Link 3</a>
+            </div>
+        </label>
+        <a href="/accounts"><label class="headButton">Hesabatlar</label></a>
+        <label class="headButton">Xidmətlər</label>
+        <label class="headButton">Əsas Jurnallar</label>
+        <a href="/documents"><label class="headButton">Sənədlər</label></a>
+        <label class="headButton">Ümumi Jurnallar</label>
+        <label class="headButton">Kassa</label>
+    </div>
+</div>
+
+<div id="bodyHomePage">
+    <div id="bodyTools">
+        <div id="Tools">
+
+        </div>
+
+        <script>
+            function showAllTools() {
+                document.getElementById("Tools").innerHTML = "";
+
+                var xmlHttp = new XMLHttpRequest();
+                var url = "http://localhost:8080/Rest/Tools";
+
+                xmlHttp.open("GET", url, false);
+                xmlHttp.setRequestHeader('Content-type', 'application/json');
+                xmlHttp.send(null);
+
+                var list = JSON.parse(xmlHttp.responseText);
+
+                var toolsPanelRest = document.getElementById("Tools");
+
+                var toolCards =
+                    "<div class=\"Tools\">" +
+                    "      <a href=\"/index?id=:id\">\n" +
+                    "      <img src=\"../image/:photo\">\n" +
+                    "      <div class=\"nameDiv\">\n"+
+                    "          <h1 class=\"ToolName\">:name</h1>\n" +
+                    "      </div>\n"+
+                    "      <p class=\"ToolWareHouse\">Anbarda: :number :size</p>\n" +
+                    "      <h1 class=\"ToolMoney\">:sale <img src=\"../image/Manat.gif\"></h1>\n" +
+                    "      </a>" +
+                    "</div>";
+
+                for (var i = 0; i < list.length; i++) {
+                    toolsPanelRest.innerHTML = toolsPanelRest.innerHTML + toolCards.replaceAll(":id", list[i].id)
+                        .replaceAll(":photo", list[i].photo).replaceAll(":name", list[i].name)
+                        .replaceAll(":size", list[i].size).replaceAll(":number", list[i].number)
+                        .replaceAll(":sale", parseFloat(list[i].sale + "").toFixed(2));
+                }
+
+            }
+
+        </script>
+    </div>
+</div>
+<script>
+    showAllTools();
+</script>
+
+</body>
+</html>

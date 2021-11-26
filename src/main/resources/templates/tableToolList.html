@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soraqçalar</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../awesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="headLine"></div>
+
+<div id="headBody">
+    <a href="/index"><img id="LogoImage" src="../image/Logo.png"></a>
+    <div id="searchDiv">
+        <input id="search" type="text" placeholder="Axtarış...">
+        <a href="/index"><i class="fas fa-search"></i></a>
+    </div>
+</div>
+
+<div id="headNavbar">
+    <div id="headNavbarList">
+        <a href="/index"><label class="headButton"><i class="fas fa-home"></i>Ana Səyfə</label></a>
+        <label class="dropdown">
+            <label class="headButton dropbtn active">Soraqçalar<i class="fas fa-caret-down"></i></label>
+            <div class="dropdown-content">
+                <a href="/list">Malların Siyahısı</a>
+                <a href="/customers">Müştərilərin siyahısı</a>
+                <a href="#">Link 3</a>
+            </div>
+        </label>
+        <a href="/accounts"><label class="headButton">Hesabatlar</label></a>
+        <label class="headButton">Xidmətlər</label>
+        <label class="headButton">Əsas Jurnallar</label>
+        <a href="/documents"><label class="headButton">Sənədlər</label></a>
+        <label class="headButton">Ümumi Jurnallar</label>
+        <label class="headButton">Kassa</label>
+    </div>
+</div>
+
+<div id="bodyQuestionnaire">
+    <div class="actionButtons">
+        <i class="fas fa-plus-circle addTools" data-bs-toggle="modal" data-bs-target="#addToolsPanel"></i>
+        <a onclick=""><i class="fas fa-edit updateTools" data-bs-toggle="modal" data-bs-target="#updateToolsPanel"></i></a>
+        <a onclick=""><i class="fas fa-trash-alt deleteTools" data-bs-toggle="modal" data-bs-target="#deleteToolsPanel"></i></a>
+        <a onclick=""><i class="fas fa-print printTools"></i></a>
+    </div>
+    <table class="example-table" id="tableList">
+        <thead class="tableHead">
+        <tr class="tableHead">
+            <th class="tableNO"> № </th>
+            <th class="tableName"> Ad </th>
+            <th class="tableBarcode"> Barkod nömrəsi </th>
+            <th class="tableNumber"> Sayı </th>
+            <th class="tableSize"> Ölçüsü </th>
+            <th class="tableBuy"> Alış/azn </th>
+            <th class="tableSale"> Satış/azn </th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+
+    <script>
+        function showAllTools() {
+            document.getElementById("tableBody").innerHTML = "";
+
+            var xmlHttp = new XMLHttpRequest();
+            var url = "http://localhost:8080/Rest/Tools";
+
+            xmlHttp.open("GET", url, false);
+            xmlHttp.setRequestHeader('Content-type', 'application/json');
+            xmlHttp.send(null);
+
+            var list = JSON.parse(xmlHttp.responseText);
+
+            var tableList = document.getElementById("tableBody");
+
+            var tableBody =
+                "<tr class=\"tableRow\">\n" +
+                "      <td class=\"tableNO\"> :id </td>\n" +
+                "      <td class=\"tableName\">:name </td>\n" +
+                "      <td class=\"tableBarcode\">:barcode </td>\n" +
+                "      <td class=\"tableNumber\"> :number </td>\n" +
+                "      <td class=\"tableSize\"> :size </td>\n" +
+                "      <td class=\"tableBuy\"> :buy</td>\n" +
+                "      <td class=\"tableSale\"> :sale</td>\n" +
+                "</tr>";
+
+            for (var i = 0; i < list.length; i++) {
+                tableList.innerHTML = tableList.innerHTML + tableBody.replaceAll(":id", list[i].id)
+                    .replaceAll(":barcode", list[i].barcode).replaceAll(":name", list[i].name)
+                    .replaceAll(":number", list[i].number).replaceAll(":size", list[i].size)
+                    .replaceAll(":buy", parseFloat(list[i].buy + "").toFixed(2))
+                    .replaceAll(":sale", parseFloat(list[i].sale + "").toFixed(2));
+            }
+
+            selectedToolsRow();
+        }
+
+        // This line is selected row start;
+        function selectedToolsRow() {
+            var index,
+                table = document.getElementById("tableList");
+
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].onclick = function () {
+
+                    if (typeof index !== "undefined") {
+                        table.rows[index].classList.toggle("selected");
+                    }
+                    console.log(typeof index);
+                    index = this.rowIndex;
+                    this.classList.toggle("selected");
+                    console.log(typeof index);
+
+                    document.getElementById("idUpdate").value = this.cells[0].innerHTML;
+                    document.getElementById("nameUpdate").value = this.cells[1].innerHTML;
+                    document.getElementById("barcodeUpdate").value = this.cells[2].innerText;
+                    document.getElementById("numberUpdate").value = this.cells[3].innerText;
+                    document.getElementById("sizeUpdate").value = this.cells[4].innerHTML;
+                    document.getElementById("buyUpdate").value = this.cells[5].innerText;
+                    document.getElementById("saleUpdate").value = this.cells[6].innerText;
+                    document.getElementById("idDelete").value=this.cells[0].innerHTML;
+                    document.getElementById("toolDeleteName").innerHTML=this.cells[1].innerHTML;
+                }
+            }
+        }
+        //     This line is selected row end
+
+    </script>
+
+    <div>
+        <div class="modal" tabindex="-1" id="addToolsPanel">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="addModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mallarin adini elave edin</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <label>Malin adi:</label>
+                            <label for="nameAdd"></label><input type="text" name="nameAdd" id="nameAdd"
+                                                                class="addAndUpdate"
+                                                                placeholder="Malin adi" required>
+                            <br><br>
+
+                            <label>Barkod nomresi:</label>
+                            <label for="barcodeAdd"></label><input type="number" name="barcodeAdd" id="barcodeAdd"
+                                                                class="addAndUpdate"
+                                                                placeholder="Barkode Nomresi" required>
+                            <br><br>
+
+                            <label>Sekil:</label>
+                            <label for="photoAdd"></label><input type="text" name="photoAdd" id="photoAdd"
+                                                                class="addAndUpdate"
+                                                                placeholder="Sekil" required>
+                            <br><br>
+
+                            <label>Sayi:</label>
+                            <label for="numberAdd"></label><input type="number" name="numberAdd" id="numberAdd"
+                                                                   class="addAndUpdate"
+                                                                   placeholder="Sayi">
+                            <br><br>
+
+                            <label>Olcusu:</label>
+                            <label for="sizeAdd"></label><input type="text" name="sizeAdd" id="sizeAdd"
+                                                                 class="addAndUpdate"
+                                                                 placeholder="Olcusu" required>
+                            <br><br>
+
+                            <label>Alisi:</label>
+                            <label for="buyAdd"></label><input type="number" name="buyAdd" id="buyAdd"
+                                                                  class="addAndUpdate"
+                                                                  placeholder="Alisi">
+                            <br><br>
+
+                            <label>Satisi:</label>
+                            <label for="saleAdd"></label><input type="number" name="saleAdd" id="saleAdd"
+                                                                  class="addAndUpdate"
+                                                                  placeholder="Satisi">
+                            <br><br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="Add" class="btn btn-success addButton" onclick="addTools()" id="buttonAd"
+                                    data-bs-dismiss="modal">Add
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn addButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="modal" tabindex="-1" id="updateToolsPanel">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="updateModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title-update">Mallarin adini update edin.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <input type="hidden" name="idUpdate" id="idUpdate">
+
+                            <label>Malin adi:</label>
+                            <label for="nameUpdate"></label><input type="text" name="nameUpdate" id="nameUpdate"
+                                                                   class="addAndUpdate">
+                            <br><br>
+
+                            <label>Barkod nomresi:</label>
+                            <label for="barcodeUpdate"></label><input type="number" name="barcodeUpdate" id="barcodeUpdate"
+                                                                   class="addAndUpdate">
+                            <br><br>
+
+                            <label>Sekil:</label>
+                            <label for="photoUpdate"></label><input type="text" name="photoUpdate" id="photoUpdate"
+                                                                   class="addAndUpdate">
+                            <br><br>
+
+                            <label>Sayi:</label>
+                            <label for="numberUpdate"></label><input type="number" name="numberUpdate" id="numberUpdate"
+                                                                   class="addAndUpdate">
+                            <br><br>
+
+                            <label>Olcusu:</label>
+                            <label for="sizeUpdate"></label><input type="text" name="sizeUpdate" id="sizeUpdate"
+                                                                    class="addAndUpdate">
+                            <br><br>
+
+                            <label>Alisi:</label>
+                            <label for="buyUpdate"></label><input type="number" name="buyUpdate" id="buyUpdate"
+                                                                     class="addAndUpdate">
+                            <br><br>
+
+                            <label>Satisi:</label>
+                            <label for="saleUpdate"></label><input type="number" name="saleUpdate" id="saleUpdate"
+                                                                     class="addAndUpdate">
+                            <br><br>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="Update" class="btn btn-success addButton" onclick="updateTools()"
+                                    data-bs-dismiss="modal" id="buttonUpdate">Update
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn addButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="modal" tabindex="-1" id="deleteToolsPanel">
+            <div class="modal-dialog ">
+                <div class="modal-content" id="deleteModal">
+                    <div class="modal-header">
+                        <h5 class="modal-title-delete">Malin adini silin.</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body-delete">
+                        <div>
+                            <input type="text" name="idDelete" id="idDelete">
+                            <span id="deleteAbout">
+                                <label id="delete" class="delete"><label id="toolDeleteName"></label> mali silmək istədiyinizə əminmisiniz? </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="addBtn">
+                            <button name="delete" class="btn btn-success deleteButton" onclick="deleteTools()"
+                                    data-bs-dismiss="modal" id="buttonDelete">Delete
+                            </button>
+                            <button name="Close" class="btn btn-success closeBtn deleteButton" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addTools() {
+            var tool = {
+                name: document.getElementById("nameAdd").value,
+                barcode: document.getElementById("barcodeAdd").value,
+                photo: document.getElementById("photoAdd").value,
+                number: document.getElementById("numberAdd").value,
+                size: document.getElementById("sizeAdd").value,
+                buy: document.getElementById("buyAdd").value,
+                sale: document.getElementById("saleAdd").value,
+            }
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllTools();
+            }
+            xmlHttp.open("POST", "http://localhost:8080/Rest/Tools/", false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(tool));
+            clearAdd();
+        }
+
+        function clearAdd() {
+            document.getElementById("nameAdd").value = "";
+            document.getElementById("barcodeAdd").value = "";
+            document.getElementById("photoAdd").value = "";
+            document.getElementById("numberAdd").value = "";
+            document.getElementById("sizeAdd").value = "";
+            document.getElementById("buyAdd").value = "";
+            document.getElementById("saleAdd").value = "";
+        }
+
+        function updateTools() {
+            var tool = {
+                id: document.getElementById("idUpdate").value,
+                name: document.getElementById("nameUpdate").value,
+                barcode: document.getElementById("barcodeUpdate").value,
+                photo: document.getElementById("photoUpdate").value,
+                number: document.getElementById("numberUpdate").value,
+                size: document.getElementById("sizeUpdate").value,
+                buy: document.getElementById("buyUpdate").value,
+                sale: document.getElementById("saleUpdate").value,
+            }
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllTools();
+            }
+            xmlHttp.open("PUT", "http://localhost:8080/Rest/Tools/", false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(tool));
+
+        }
+
+        function deleteTools(){
+            var id= document.getElementById("idDelete").value;
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                showAllTools();
+            }
+            xmlHttp.open("DELETE", "http://localhost:8080/Rest/Tools/"+id, false);
+            xmlHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xmlHttp.send(JSON.stringify(id));
+        }
+
+    </script>
+
+</div>
+
+<script>
+    showAllTools();
+</script>
+</body>
+</html>
